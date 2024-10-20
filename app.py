@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template, request
+from mdp_game.game_environment import TicTacToeMDP
 from mdp_game.value_iteration import ValueIteration, TicTacToeMDP
 
 app = Flask(__name__)
