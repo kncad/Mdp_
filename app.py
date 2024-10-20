@@ -38,4 +38,4 @@ def make_move():
     return jsonify({'ai_move': ai_move})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
