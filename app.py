@@ -1,13 +1,12 @@
 from flask import Flask, jsonify, render_template, request
 from mdp_game.game_environment import TicTacToeMDP
 from mdp_game.value_iteration import ValueIteration
+import numpy as np
 
 app = Flask(__name__)
 
-# Initialize game MDP and AI
+# Initialize game MDP
 game = TicTacToeMDP()
-vi = ValueIteration(game)
-vi.value_iteration()
 
 @app.route('/')
 def index():
@@ -22,13 +21,15 @@ def make_move():
     # Update game board
     game.update_state(action, player)
     
-    # Check if game is over
+    # Check if player wins or draw
     if game.is_winner(player):
         return jsonify({'result': f'Player {player} wins!'})
     elif not game.get_possible_actions():
         return jsonify({'result': 'Draw'})
     
-    # Get AI move
+    # AI move
+    vi = ValueIteration(game)
+    vi.value_iteration()
     ai_move = vi.get_optimal_action(game.board_to_state())
     game.update_state(ai_move, -player)
     
